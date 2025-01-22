@@ -1,5 +1,6 @@
+import NavButton from "../ui/buttons/nav-button";
+
 import { CircleCheckBig, LogOut } from "lucide-react";
-import Button from "../ui/buttons/button";
 
 export default function Navbar() {
   return (
@@ -13,14 +14,10 @@ export default function Navbar() {
         </span>
 
         <span className="group">
-          <Button
-            buttonVariant={"secondary"}
-            buttonType={"button"}
-            buttonWidth={"max-w-40"}
-          >
+          <NavButton buttonType={"button"}>
             <LogOut className="stroke-gray-500 group-hover:stroke-gray-700" />
             Log out
-          </Button>
+          </NavButton>
         </span>
       </nav>
     </>

@@ -31,7 +31,7 @@ export default function Button({
     <>
       <button
         type={buttonType}
-        className={`inline-flex h-11 w-52 items-center justify-center gap-2 rounded-md border border-gray-200 ${bgColor} px-8 py-2 text-sm font-medium ${textColor} transition-all duration-300 ${hoverBgColor} ${buttonWidth} hover:shadow-md`}
+        className={`inline-flex h-11 items-center justify-center gap-2 rounded-md border border-gray-200 ${bgColor} px-8 py-2 text-sm font-medium ${textColor} transition-all duration-300 ${hoverBgColor} ${buttonWidth} hover:shadow-md`}
         disabled={disabledStatus}
       >
         {children}

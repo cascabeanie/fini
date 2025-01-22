@@ -1,5 +1,8 @@
 import Navbar from "./components/header/navbar";
+import TodoContextProvider from "./contexts/todo-context";
+import LoadingContextProvider from "./contexts/loading-context";
 import Home from "./pages/home-page";
+import Footer from "./components/footer/footer";
 
 function App() {
   return (
@@ -10,10 +13,16 @@ function App() {
         </header>
 
         <main>
-          <Home />
+          <TodoContextProvider>
+            <LoadingContextProvider>
+              <Home />
+            </LoadingContextProvider>
+          </TodoContextProvider>
         </main>
 
-        <footer></footer>
+        <footer className="flex items-center justify-center">
+          <Footer />
+        </footer>
       </div>
     </>
   );

@@ -22,4 +22,32 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Create a new todo for a user
+router.post("/", async (req, res) => {
+  const user_id = req.headers["user-id"];
+
+  const {
+    todo_category,
+    todo_title,
+    todo_notes,
+    todo_deadline,
+    todo_priority,
+  } = req.body;
+
+  try {
+    const newTodo = await sql`
+      INSERT INTO todos
+        (todo_category, todo_title, todo_notes, todo_deadline, todo_priority, todo_completed, user_id)
+      VALUES
+        (${todo_category}, ${todo_title}, ${todo_notes}, ${todo_deadline}, ${todo_priority}, FALSE, ${user_id})
+      RETURNING *
+    `;
+
+    res.status(201).json(newTodo);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: error.message });
+  }
+});
+
 export default router;
