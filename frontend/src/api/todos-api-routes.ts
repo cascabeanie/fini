@@ -46,6 +46,9 @@ export async function createTodo(newTodo: todoType) {
   }
 }
 
+// Update a todo for a specific user
+export async function updateTodos(newTodo: todoType) {}
+
 // Delete a todo for a specific user
 export async function deleteTodo(todoId: string | undefined) {
   try {
@@ -63,3 +66,6 @@ export async function deleteTodo(todoId: string | undefined) {
     console.log(error);
   }
 }
+
+// Update the completed status of a todo for a specific user
+export async function completeTodo(todo: todoType) {}

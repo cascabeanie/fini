@@ -15,6 +15,7 @@ import EmptyTodoList from "./empty-todo-list.tsx";
 import LoadingTodoList from "./loading-todo-list.tsx";
 
 import { Flag, Pencil, Trash2 } from "lucide-react";
+import TaskOverdue from "./task-overdue.tsx";
 
 type TodoListProps = {
   onUpdateTodo: (newTodo: todoType) => void;
@@ -34,6 +35,16 @@ export default function TodoList({
   const [selectedTodoId, setSelectedTodoId] = useState<string | undefined>();
   const { todos } = useTodoContext();
   const { loadingStatus } = useLoadingContext();
+
+  const currentTime = new Date();
+  console.log(currentTime);
+
+  function convertDateTime(dateTime: string) {
+    return new Date(dateTime).toLocaleString("en-GB", {
+      dateStyle: "full",
+      timeStyle: "short",
+    });
+  }
 
   return (
     <>
@@ -84,7 +95,7 @@ export default function TodoList({
 
                   <div className="flex md:justify-center">
                     <time className="font-light">
-                      Deadline: {todo.todoDeadline}
+                      Deadline: {convertDateTime(todo.todoDeadline)}
                     </time>
                   </div>
 
@@ -125,6 +136,12 @@ export default function TodoList({
                 <div>
                   <h3 className="font-medium">Notes:</h3>
                   <p className="font-light">{todo.todoNotes}</p>
+                </div>
+
+                <div>
+                  {new Date(todo.todoDeadline) <= currentTime && (
+                    <TaskOverdue />
+                  )}
                 </div>
               </li>
             ))}

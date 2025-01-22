@@ -39,17 +39,19 @@ export default function TodoForm({
     try {
       const formData = new FormData(event.currentTarget);
 
-      const deadline = formData.get("newTodoDeadline") as string;
-      const formattedDeadline = new Date(deadline).toLocaleString("en-GB", {
+      //dev: to be deleted
+      /* const deadline = formData.get("newTodoDeadline") as string; */
+      /*  const formattedDeadline = new Date(deadline).toLocaleString("en-GB", {
         dateStyle: "full",
         timeStyle: "short",
-      });
+      }); */
 
       const userInput: todoType = {
         todoCategory: formData.get("newTodoCategory") as string,
         todoTitle: formData.get("newTodoTitle") as string,
         todoNotes: formData.get("newTodoNotes") as string,
-        todoDeadline: formattedDeadline,
+        todoDeadline: formData.get("newTodoDeadline") as string,
+        //todoDeadline: formattedDeadline,
         todoPriority: formData.get("newTodoPriority") as string,
       };
 

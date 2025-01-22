@@ -7,9 +7,9 @@ import { todoType } from "../lib/types/todo-types";
 
 import TodoModal from "../components/ui/modals/todo-modal";
 import Button from "../components/ui/buttons/button";
+import TodoList from "../components/main/todo-list";
 
 import { CirclePlus, LoaderCircle } from "lucide-react";
-import TodoList from "../components/main/todo-list";
 
 export default function Home() {
   const [newModalVisibility, setNewModalVisibility] = useState(false);
@@ -17,17 +17,14 @@ export default function Home() {
   const { setTodos } = useTodoContext();
   const { loadingStatus, setLoadingStatus } = useLoadingContext();
 
-  useEffect(() => {
-    async function handleReadTodos() {
-      setLoadingStatus(true);
-      const data = await readTodos();
-      setTodos(() => {
-        return [...data];
-      });
-      setLoadingStatus(false);
-    }
-    handleReadTodos();
-  }, []);
+  async function handleReadTodos() {
+    setLoadingStatus(true);
+    const data = await readTodos();
+    setTodos(() => {
+      return [...data];
+    });
+    setLoadingStatus(false);
+  }
 
   async function handleCreateTodo(newTodo: todoType) {
     setLoadingStatus(true);
@@ -56,6 +53,10 @@ export default function Home() {
   }
 
   async function handleCompletedTodo(todo: todoType) {}
+
+  useEffect(() => {
+    handleReadTodos();
+  }, []);
 
   return (
     <>
