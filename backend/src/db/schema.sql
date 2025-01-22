@@ -10,7 +10,7 @@ CREATE TABLE todos (
     todo_category VARCHAR(255) NOT NULL,
     todo_title VARCHAR(255) NOT NULL,
     todo_notes VARCHAR(255),
-    todo_deadline TIMESTAMP,
+    todo_deadline VARCHAR(255),
     todo_priority VARCHAR(255),
     todo_completed BOOLEAN NOT NULL,
     user_id INT REFERENCES users (id) 
@@ -21,4 +21,4 @@ INSERT INTO users (username, password)
 VALUES ('cascabeanie', 'password');
 
 INSERT INTO todos (todo_category, todo_title, todo_notes, todo_deadline, todo_priority, todo_completed, user_id)
-VALUES ('health', 'Gym', 'workout', '2025-02-06T13:00:00.000Z', 'medium', 'FALSE', '1');
+VALUES ('health', 'Gym', 'workout', 'Saturday 1 February 2025 at 10:00', 'medium', 'FALSE', '1');

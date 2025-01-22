@@ -45,3 +45,21 @@ export async function createTodo(newTodo: todoType) {
     console.log(error);
   }
 }
+
+// Delete a todo for a specific user
+export async function deleteTodo(todoId: string | undefined) {
+  try {
+    const res = await fetch(`${baseUrl}todos/${todoId}`, {
+      method: "DELETE",
+      headers: {
+        "user-id": "1",
+      },
+    });
+
+    const data = await res.json();
+    console.log(data);
+    //return data;
+  } catch (error) {
+    console.log(error);
+  }
+}

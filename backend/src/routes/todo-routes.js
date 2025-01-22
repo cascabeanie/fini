@@ -18,7 +18,11 @@ router.get("/", async (req, res) => {
     res.status(200).json(allTodos);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: error.message });
+
+    res.status(500).json({
+      error: error,
+      message: "500 server error has occured",
+    });
   }
 });
 
@@ -44,6 +48,25 @@ router.post("/", async (req, res) => {
     `;
 
     res.status(201).json(newTodo);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: error, message: "400 error has occured" });
+  }
+});
+
+// Delete an existing todo for a user
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  const user_id = req.headers["user-id"];
+
+  try {
+    await sql`
+      DELETE FROM todos
+      WHERE user_id = ${user_id}
+      AND todo_id = ${id}
+    `;
+
+    res.status(200).json({ message: "Todo successfully deleted" });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: error.message });

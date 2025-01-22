@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTodoContext } from "../contexts/todo-context";
 import { useLoadingContext } from "../contexts/loading-context";
-import { readTodos, createTodo } from "../api/todos-api-routes";
+import { readTodos, createTodo, deleteTodo } from "../api/todos-api-routes";
 
 import { todoType } from "../lib/types/todo-types";
 
@@ -9,10 +9,11 @@ import TodoModal from "../components/ui/modals/todo-modal";
 import Button from "../components/ui/buttons/button";
 
 import { CirclePlus, LoaderCircle } from "lucide-react";
+import TodoList from "../components/main/todo-list";
 
 export default function Home() {
   const [newModalVisibility, setNewModalVisibility] = useState(false);
-  //const [editModalVisibility, setEditModalVisibility] = useState(false);
+  const [editModalVisibility, setEditModalVisibility] = useState(false);
   const { setTodos } = useTodoContext();
   const { loadingStatus, setLoadingStatus } = useLoadingContext();
 
@@ -37,6 +38,24 @@ export default function Home() {
     setLoadingStatus(false);
     setNewModalVisibility(false);
   }
+
+  async function handleUpdateTodo(newTodo: todoType) {}
+
+  async function handleDeleteTodo(todoId: string | undefined) {
+    setLoadingStatus(true);
+    await deleteTodo(todoId);
+
+    setTodos((prevTodos) => {
+      const filteredTodos = prevTodos.filter((todo) => {
+        return todo.todoId !== todoId;
+      });
+
+      return [...filteredTodos];
+    });
+    setLoadingStatus(false);
+  }
+
+  async function handleCompletedTodo(todo: todoType) {}
 
   return (
     <>
@@ -64,6 +83,14 @@ export default function Home() {
           </Button>
         </span>
       </div>
+
+      <TodoList
+        onUpdateTodo={handleUpdateTodo}
+        onDeleteTodo={handleDeleteTodo}
+        onCompleteTodo={handleCompletedTodo}
+        modalStatus={editModalVisibility}
+        changeModalStatus={setEditModalVisibility}
+      />
     </>
   );
 }
