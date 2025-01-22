@@ -37,7 +37,6 @@ export default function TodoList({
   const { loadingStatus } = useLoadingContext();
 
   const currentTime = new Date();
-  console.log(currentTime);
 
   function convertDateTime(dateTime: string) {
     return new Date(dateTime).toLocaleString("en-GB", {
@@ -139,9 +138,8 @@ export default function TodoList({
                 </div>
 
                 <div>
-                  {new Date(todo.todoDeadline) <= currentTime && (
-                    <TaskOverdue />
-                  )}
+                  {new Date(todo.todoDeadline) <= currentTime &&
+                    todo.todoCompleted === false && <TaskOverdue />}
                 </div>
               </li>
             ))}

@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import { useTodoContext } from "../contexts/todo-context";
 import { useLoadingContext } from "../contexts/loading-context";
-import { readTodos, createTodo, deleteTodo } from "../api/todos-api-routes";
+import {
+  readTodos,
+  createTodo,
+  deleteTodo,
+  completeTodo,
+} from "../api/todos-api-routes";
 
 import { todoType } from "../lib/types/todo-types";
 
@@ -52,7 +57,18 @@ export default function Home() {
     setLoadingStatus(false);
   }
 
-  async function handleCompletedTodo(todo: todoType) {}
+  async function handleCompletedTodo(todo: todoType) {
+    const { todoId } = todo;
+    const data = await completeTodo(todo);
+
+    setTodos((prevTodos) => {
+      const filteredTodos = prevTodos.filter((todo) => {
+        return todo.todoId !== todoId;
+      });
+
+      return [...filteredTodos, data[0]];
+    });
+  }
 
   useEffect(() => {
     handleReadTodos();

@@ -68,4 +68,30 @@ export async function deleteTodo(todoId: string | undefined) {
 }
 
 // Update the completed status of a todo for a specific user
-export async function completeTodo(todo: todoType) {}
+export async function completeTodo(todo: todoType) {
+  try {
+    let newCompletedStatus;
+    const { todoId, todoCompleted } = todo;
+
+    todoCompleted === false
+      ? (newCompletedStatus = true)
+      : (newCompletedStatus = false);
+
+    const res = await fetch(`${baseUrl}todos/${todoId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "user-id": "1",
+      },
+      body: JSON.stringify({
+        todo_completed: newCompletedStatus,
+      }),
+    });
+
+    const data = await res.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}

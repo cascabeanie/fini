@@ -69,7 +69,30 @@ router.delete("/:id", async (req, res) => {
     res.status(200).json({ message: "Todo successfully deleted" });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ error: error, message: "400 error has occured" });
+  }
+});
+
+// Update the completed status for a user's todo
+router.patch("/:id", async (req, res) => {
+  const { id } = req.params;
+  const user_id = req.headers["user-id"];
+  const todo = {
+    todo_completed: req.body.todo_completed,
+  };
+
+  try {
+    const updatedCompletedStatus = await sql`
+      UPDATE todos SET ${sql(todo, "todo_completed")}
+      WHERE user_id = ${user_id}
+      AND todo_id = ${id}
+      RETURNING *
+    `;
+
+    res.status(200).json(updatedCompletedStatus);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: error, message: "400 error has occured" });
   }
 });
 
