@@ -4,6 +4,7 @@ import { useLoadingContext } from "../contexts/loading-context";
 import {
   readTodos,
   createTodo,
+  updateTodos,
   deleteTodo,
   completeTodo,
 } from "../api/todos-api-routes";
@@ -41,7 +42,20 @@ export default function Home() {
     setNewModalVisibility(false);
   }
 
-  async function handleUpdateTodo(newTodo: todoType) {}
+  async function handleUpdateTodo(newTodo: todoType) {
+    setLoadingStatus(true);
+    const { todoId } = newTodo;
+    const data = await updateTodos(newTodo);
+    setTodos((prevTodos) => {
+      const filteredTodos = prevTodos.filter((todo) => {
+        return todo.todoId !== todoId;
+      });
+
+      return [...filteredTodos, data[0]];
+    });
+    setLoadingStatus(false);
+    setEditModalVisibility(false);
+  }
 
   async function handleDeleteTodo(todoId: string | undefined) {
     setLoadingStatus(true);

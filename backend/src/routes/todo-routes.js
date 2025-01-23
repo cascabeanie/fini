@@ -54,6 +54,42 @@ router.post("/", async (req, res) => {
   }
 });
 
+// Update an existing todo for a user
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const user_id = req.headers["user-id"];
+  const todo = {
+    todo_category: req.body.todo_category,
+    todo_title: req.body.todo_title,
+    todo_notes: req.body.todo_notes,
+    todo_deadline: req.body.todo_deadline,
+    todo_priority: req.body.todo_priority,
+    todo_completed: "FALSE",
+  };
+
+  try {
+    const updatedTodo = await sql`
+      UPDATE todos SET ${sql(
+        todo,
+        "todo_category",
+        "todo_title",
+        "todo_notes",
+        "todo_deadline",
+        "todo_priority",
+        "todo_completed"
+      )}
+      WHERE user_id = ${user_id}
+      AND todo_id = ${id}
+      RETURNING *
+    `;
+
+    res.status(200).json(updatedTodo);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: error, message: "400 error has occured" });
+  }
+});
+
 // Delete an existing todo for a user
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;

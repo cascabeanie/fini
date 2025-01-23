@@ -14,6 +14,7 @@ export async function readTodos() {
     });
     const data = await res.json();
 
+    // dev: for testing
     console.log(data);
     return data;
   } catch (error) {
@@ -47,7 +48,30 @@ export async function createTodo(newTodo: todoType) {
 }
 
 // Update a todo for a specific user
-export async function updateTodos(newTodo: todoType) {}
+export async function updateTodos(newTodo: todoType) {
+  try {
+    const { todoId } = newTodo;
+    const res = await fetch(`${baseUrl}todos/${todoId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "user-id": "1",
+      },
+      body: JSON.stringify({
+        todo_category: newTodo.todoCategory,
+        todo_title: newTodo.todoTitle,
+        todo_notes: newTodo.todoNotes,
+        todo_deadline: newTodo.todoDeadline,
+        todo_priority: newTodo.todoPriority,
+      }),
+    });
+
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 // Delete a todo for a specific user
 export async function deleteTodo(todoId: string | undefined) {
