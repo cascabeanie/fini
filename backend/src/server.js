@@ -16,7 +16,7 @@ app.use((req, res, next) => {
   }, 1000);
 });
 
-app.use("/todos", todosRoutes);
+app.use("/api/todos", todosRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port: ${PORT}`);

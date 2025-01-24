@@ -1,9 +1,10 @@
 import Navbar from "./components/header/navbar";
 import TodoContextProvider from "./contexts/todo-context";
 import LoadingContextProvider from "./contexts/loading-context";
+import Landing from "./pages/landing-page";
+//import Auth from "./pages/auth-page";
 import Home from "./pages/home-page";
 import Footer from "./components/footer/footer";
-import Auth from "./pages/auth-page";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
         <main>
           <TodoContextProvider>
             <LoadingContextProvider>
-              {true ? <Auth /> : <Home />}
+              {false ? <Landing /> : <Home />}
             </LoadingContextProvider>
           </TodoContextProvider>
         </main>

@@ -6,7 +6,7 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 export async function readTodos() {
   try {
     // dev: user_id will be provided in a jwt when implemented later
-    const res = await fetch(`${baseUrl}todos`, {
+    const res = await fetch(`${baseUrl}/api/todos`, {
       method: "GET",
       headers: {
         "user-id": "1",
@@ -25,7 +25,7 @@ export async function readTodos() {
 // Create a todo for a specific user
 export async function createTodo(newTodo: todoType) {
   try {
-    const res = await fetch(`${baseUrl}todos`, {
+    const res = await fetch(`${baseUrl}/api/todos`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +51,7 @@ export async function createTodo(newTodo: todoType) {
 export async function updateTodos(newTodo: todoType) {
   try {
     const { todoId } = newTodo;
-    const res = await fetch(`${baseUrl}todos/${todoId}`, {
+    const res = await fetch(`${baseUrl}/api/todos/${todoId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export async function updateTodos(newTodo: todoType) {
 // Delete a todo for a specific user
 export async function deleteTodo(todoId: string | undefined) {
   try {
-    const res = await fetch(`${baseUrl}todos/${todoId}`, {
+    const res = await fetch(`${baseUrl}/api/todos/${todoId}`, {
       method: "DELETE",
       headers: {
         "user-id": "1",
@@ -101,7 +101,7 @@ export async function completeTodo(todo: todoType) {
       ? (newCompletedStatus = true)
       : (newCompletedStatus = false);
 
-    const res = await fetch(`${baseUrl}todos/${todoId}`, {
+    const res = await fetch(`${baseUrl}/api/todos/${todoId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

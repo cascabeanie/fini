@@ -3,6 +3,7 @@ import NavButton from "../ui/buttons/nav-button";
 import { CircleCheckBig, LogOut } from "lucide-react";
 
 export default function Navbar() {
+  // using useLocation() from react router obtain the current path and conditionally render the nav buttons based on the result
   return (
     <>
       <nav className="flex w-full items-center justify-between">
