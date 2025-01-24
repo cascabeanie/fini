@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import authRoutes from "./routes/auth-routes.js";
+import authMiddleware from "./middleware/auth-middleware.js";
 import todosRoutes from "./routes/todo-routes.js";
 
 const app = express();
@@ -16,7 +18,8 @@ app.use((req, res, next) => {
   }, 1000);
 });
 
-app.use("/api/todos", todosRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/todos", authMiddleware, todosRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port: ${PORT}`);

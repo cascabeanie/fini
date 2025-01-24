@@ -1,11 +1,43 @@
+import { useState } from "react";
+import { useNavigate, Link } from "react-router";
+import { registerUser } from "../../../api/auth-api-routes";
+
 import Button from "../../ui/buttons/button";
 import AuthInput from "../../ui/inputs/auth-inputs";
 
 import { ClipboardCheck } from "lucide-react";
 
 export default function Register() {
-  function handleSubmit() {
-    console.log("test123");
+  let navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError(null); // Reset any previous errors
+
+    try {
+      const formData = new FormData(event.currentTarget);
+
+      const userCredentials = {
+        username: formData.get("username") as string,
+        password: formData.get("password") as string,
+      };
+
+      const data = await registerUser(userCredentials);
+
+      if (data && data.token) {
+        // dev: for testing
+        console.log(data);
+
+        localStorage.setItem("token", data.token);
+        navigate("/tasks");
+      } else {
+        setError(data.message);
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -55,6 +87,8 @@ export default function Register() {
             </div>
 
             <div className="w-full">
+              {error && <div className="text-red-600">{error}</div>}
+
               <Button
                 buttonVariant={"primary"}
                 buttonType={"submit"}
@@ -67,9 +101,12 @@ export default function Register() {
 
           <div className="flex gap-1">
             <p className="text-gray-500">Already have an account?</p>
-            <button className="underline underline-offset-4 hover:animate-pulse">
+            <Link
+              to="/login"
+              className="underline underline-offset-4 hover:animate-pulse"
+            >
               Login
-            </button>
+            </Link>
           </div>
         </div>
       </div>

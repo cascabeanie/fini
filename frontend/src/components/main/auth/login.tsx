@@ -1,11 +1,21 @@
+import { Link } from "react-router";
+
 import Button from "../../ui/buttons/button";
 import AuthInput from "../../ui/inputs/auth-inputs";
 
 import { ClipboardCheck } from "lucide-react";
 
 export default function Login() {
-  function handleSubmit() {
-    console.log("test123");
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+
+    const userCredentials = {
+      username: formData.get("username") as string,
+      password: formData.get("password") as string,
+    };
+
+    console.log(userCredentials);
   }
 
   return (
@@ -16,7 +26,7 @@ export default function Login() {
           <ClipboardCheck className="stroke-gray-500" />
         </h2>
 
-        <div className="flex h-full max-h-[22rem] w-full max-w-md flex-col items-center gap-8 rounded-3xl border p-6 shadow-lg md:max-h-[26rem] md:max-w-xl md:gap-10 md:p-12">
+        <div className="flex h-full max-h-[24rem] w-full max-w-md flex-col items-center gap-8 rounded-3xl border p-6 shadow-lg md:max-h-[28rem] md:max-w-xl md:gap-10 md:p-12">
           <form
             onSubmit={handleSubmit}
             className="flex w-full flex-col items-center gap-6 md:gap-8"
@@ -44,6 +54,9 @@ export default function Login() {
                 minimumLength={8}
                 id={"password"}
               />
+              <Link to="/" className="mt-1 flex self-end text-sm font-medium">
+                Forgot password?
+              </Link>
             </div>
 
             <div className="w-full">
@@ -59,9 +72,12 @@ export default function Login() {
 
           <div className="flex gap-1">
             <p className="text-gray-500">Do not have an account yet?</p>
-            <button className="underline underline-offset-4 hover:animate-pulse">
+            <Link
+              to="/register"
+              className="underline underline-offset-4 hover:animate-pulse"
+            >
               Register
-            </button>
+            </Link>
           </div>
         </div>
       </div>

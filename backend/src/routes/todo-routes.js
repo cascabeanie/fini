@@ -6,8 +6,7 @@ const router = express.Router();
 // Get all todos for a specific user
 router.get("/", async (req, res) => {
   try {
-    // dev: user_id will be obtained from a jwt when implemented later
-    const user_id = req.headers["user-id"];
+    const user_id = req.userId;
 
     const allTodos = await sql`
         SELECT
@@ -17,18 +16,16 @@ router.get("/", async (req, res) => {
       `;
     res.status(200).json(allTodos);
   } catch (error) {
-    console.log(error);
-
+    console.error(error);
     res.status(500).json({
-      error: error,
-      message: "500 server error has occured",
+      message: "An error has occured while fetching tasks.",
     });
   }
 });
 
 // Create a new todo for a user
 router.post("/", async (req, res) => {
-  const user_id = req.headers["user-id"];
+  const user_id = req.userId;
 
   const {
     todo_category,
@@ -49,15 +46,17 @@ router.post("/", async (req, res) => {
 
     res.status(201).json(newTodo);
   } catch (error) {
-    console.log(error);
-    res.status(400).json({ error: error, message: "400 error has occured" });
+    console.error(error);
+    res
+      .status(400)
+      .json({ message: "An error has occured while creating a task." });
   }
 });
 
 // Update an existing todo for a user
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
-  const user_id = req.headers["user-id"];
+  const user_id = req.userId;
   const todo = {
     todo_category: req.body.todo_category,
     todo_title: req.body.todo_title,
@@ -85,15 +84,17 @@ router.put("/:id", async (req, res) => {
 
     res.status(200).json(updatedTodo);
   } catch (error) {
-    console.log(error);
-    res.status(400).json({ error: error, message: "400 error has occured" });
+    console.error(error);
+    res
+      .status(400)
+      .json({ message: "An error has occured while updating a task." });
   }
 });
 
 // Delete an existing todo for a user
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
-  const user_id = req.headers["user-id"];
+  const user_id = req.userId;
 
   try {
     await sql`
@@ -104,15 +105,17 @@ router.delete("/:id", async (req, res) => {
 
     res.status(200).json({ message: "Todo successfully deleted" });
   } catch (error) {
-    console.log(error);
-    res.status(400).json({ error: error, message: "400 error has occured" });
+    console.error(error);
+    res
+      .status(400)
+      .json({ message: "An error has occured while deleting a task." });
   }
 });
 
 // Update the completed status for a user's todo
 router.patch("/:id", async (req, res) => {
   const { id } = req.params;
-  const user_id = req.headers["user-id"];
+  const user_id = req.userId;
   const todo = {
     todo_completed: req.body.todo_completed,
   };
@@ -127,8 +130,10 @@ router.patch("/:id", async (req, res) => {
 
     res.status(200).json(updatedCompletedStatus);
   } catch (error) {
-    console.log(error);
-    res.status(400).json({ error: error, message: "400 error has occured" });
+    console.error(error);
+    res
+      .status(400)
+      .json({ message: "An error has occured while completing a task." });
   }
 });
 

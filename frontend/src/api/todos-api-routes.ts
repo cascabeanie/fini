@@ -5,11 +5,12 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 // Get todos for a specific user
 export async function readTodos() {
   try {
-    // dev: user_id will be provided in a jwt when implemented later
+    const token = localStorage.getItem("token");
+
     const res = await fetch(`${baseUrl}/api/todos`, {
       method: "GET",
       headers: {
-        "user-id": "1",
+        authorization: token as string,
       },
     });
     const data = await res.json();
@@ -25,11 +26,13 @@ export async function readTodos() {
 // Create a todo for a specific user
 export async function createTodo(newTodo: todoType) {
   try {
+    const token = localStorage.getItem("token");
+
     const res = await fetch(`${baseUrl}/api/todos`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "user-id": "1",
+        authorization: token as string,
       },
       body: JSON.stringify({
         todo_category: newTodo.todoCategory,
@@ -51,11 +54,13 @@ export async function createTodo(newTodo: todoType) {
 export async function updateTodos(newTodo: todoType) {
   try {
     const { todoId } = newTodo;
+    const token = localStorage.getItem("token");
+
     const res = await fetch(`${baseUrl}/api/todos/${todoId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "user-id": "1",
+        authorization: token as string,
       },
       body: JSON.stringify({
         todo_category: newTodo.todoCategory,
@@ -76,10 +81,12 @@ export async function updateTodos(newTodo: todoType) {
 // Delete a todo for a specific user
 export async function deleteTodo(todoId: string | undefined) {
   try {
+    const token = localStorage.getItem("token");
+
     const res = await fetch(`${baseUrl}/api/todos/${todoId}`, {
       method: "DELETE",
       headers: {
-        "user-id": "1",
+        authorization: token as string,
       },
     });
 
@@ -96,6 +103,7 @@ export async function completeTodo(todo: todoType) {
   try {
     let newCompletedStatus;
     const { todoId, todoCompleted } = todo;
+    const token = localStorage.getItem("token");
 
     todoCompleted === false
       ? (newCompletedStatus = true)
@@ -105,7 +113,7 @@ export async function completeTodo(todo: todoType) {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        "user-id": "1",
+        authorization: token as string,
       },
       body: JSON.stringify({
         todo_completed: newCompletedStatus,

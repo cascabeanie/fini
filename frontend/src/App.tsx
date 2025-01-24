@@ -1,8 +1,12 @@
-import Navbar from "./components/header/navbar";
+import { Route, Routes } from "react-router";
 import TodoContextProvider from "./contexts/todo-context";
 import LoadingContextProvider from "./contexts/loading-context";
+
+import Navbar from "./components/header/navbar";
 import Landing from "./pages/landing-page";
-//import Auth from "./pages/auth-page";
+import Auth from "./pages/auth-page";
+import Login from "./components/main/auth/login";
+import Register from "./components/main/auth/register";
 import Home from "./pages/home-page";
 import Footer from "./components/footer/footer";
 
@@ -17,7 +21,16 @@ function App() {
         <main>
           <TodoContextProvider>
             <LoadingContextProvider>
-              {false ? <Landing /> : <Home />}
+              <Routes>
+                <Route path="/" element={<Landing />} />
+
+                <Route element={<Auth />}>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                </Route>
+
+                <Route path="/tasks" element={<Home />} />
+              </Routes>
             </LoadingContextProvider>
           </TodoContextProvider>
         </main>
