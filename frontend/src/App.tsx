@@ -1,3 +1,4 @@
+import { Toaster } from "sonner";
 import { Route, Routes } from "react-router";
 import TodoContextProvider from "./contexts/todo-context";
 import LoadingContextProvider from "./contexts/loading-context";
@@ -19,6 +20,7 @@ function App() {
         </header>
 
         <main>
+          <Toaster position="top-center" richColors />
           <TodoContextProvider>
             <LoadingContextProvider>
               <Routes>

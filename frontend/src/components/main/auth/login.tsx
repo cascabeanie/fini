@@ -1,4 +1,6 @@
-import { Link } from "react-router";
+import { toast } from "sonner";
+import { useNavigate, Link } from "react-router";
+import { loginUser } from "../../../api/auth-api-routes";
 
 import Button from "../../ui/buttons/button";
 import AuthInput from "../../ui/inputs/auth-inputs";
@@ -6,16 +8,33 @@ import AuthInput from "../../ui/inputs/auth-inputs";
 import { ClipboardCheck } from "lucide-react";
 
 export default function Login() {
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  let navigate = useNavigate();
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
 
-    const userCredentials = {
-      username: formData.get("username") as string,
-      password: formData.get("password") as string,
-    };
+    try {
+      const formData = new FormData(event.currentTarget);
 
-    console.log(userCredentials);
+      const userCredentials = {
+        username: formData.get("username") as string,
+        password: formData.get("password") as string,
+      };
+
+      const data = await loginUser(userCredentials);
+
+      if (data && data.token) {
+        localStorage.setItem("token", data.token);
+        toast.success("Login successful!");
+        navigate("/tasks");
+      } else {
+        toast.error(data.errorMessage);
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An unexpected error occurred");
+    }
   }
 
   return (

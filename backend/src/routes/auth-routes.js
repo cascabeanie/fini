@@ -11,7 +11,7 @@ router.post("/register", async (req, res) => {
   const hashedPass = bcrypt.hashSync(password, 10);
 
   try {
-    const registerUser = await sql`
+    const createUser = await sql`
         INSERT INTO users
             (username, password)
         VALUES
@@ -20,27 +20,60 @@ router.post("/register", async (req, res) => {
         `;
 
     const token = jwt.sign(
-      { id: await registerUser[0].id },
+      { id: createUser[0].id },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: "24h" }
+      { expiresIn: "1h" }
     );
 
-    res.status(201).json({ registerUser, token });
+    res.status(201).json({ createUser, token });
   } catch (error) {
     console.error(error);
     // checks first that username is available
     if (error.code === "23505") {
       return res.status(400).json({
-        message: "Sorry, username has already been taken.",
+        errorMessage: "Sorry, username has already been taken.",
       });
     }
 
     res.status(500).json({
-      message: "Registration has failed, please try again.",
+      errorMessage: "Registration has failed, please try again.",
     });
   }
 });
 
 // Login an existing user
+router.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const getUser = await sql`
+        SELECT
+            *
+        FROM users
+        WHERE username = ${username}
+      `;
+
+    if (!getUser[0]) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    const isPasswordValid = bcrypt.compareSync(password, getUser[0].password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Password is invalid." });
+    }
+
+    const token = jwt.sign({ id: getUser[0].id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "1h",
+    });
+
+    res.status(200).json({ getUser, token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      errorMessage: "Login has failed, please try again.",
+    });
+  }
+});
 
 export default router;

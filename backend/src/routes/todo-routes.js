@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "An error has occured while fetching tasks.",
+      errorMessage: "An error has occured while fetching tasks.",
     });
   }
 });
@@ -44,12 +44,14 @@ router.post("/", async (req, res) => {
       RETURNING *
     `;
 
-    res.status(201).json(newTodo);
+    res
+      .status(201)
+      .json({ newTodo: newTodo, successMessage: "Task successfully created" });
   } catch (error) {
     console.error(error);
     res
       .status(400)
-      .json({ message: "An error has occured while creating a task." });
+      .json({ errorMessage: "An error has occured while creating a task." });
   }
 });
 
@@ -82,12 +84,15 @@ router.put("/:id", async (req, res) => {
       RETURNING *
     `;
 
-    res.status(200).json(updatedTodo);
+    res.status(200).json({
+      updatedTodo: updatedTodo,
+      successMessage: "Task successfully updated",
+    });
   } catch (error) {
     console.error(error);
     res
       .status(400)
-      .json({ message: "An error has occured while updating a task." });
+      .json({ errorMessage: "An error has occured while updating a task." });
   }
 });
 
@@ -103,12 +108,12 @@ router.delete("/:id", async (req, res) => {
       AND todo_id = ${id}
     `;
 
-    res.status(200).json({ message: "Todo successfully deleted" });
+    res.status(200).json({ successMessage: "Task successfully deleted" });
   } catch (error) {
     console.error(error);
     res
       .status(400)
-      .json({ message: "An error has occured while deleting a task." });
+      .json({ errorMessage: "An error has occured while deleting a task." });
   }
 });
 
@@ -128,12 +133,15 @@ router.patch("/:id", async (req, res) => {
       RETURNING *
     `;
 
-    res.status(200).json(updatedCompletedStatus);
+    res.status(200).json({
+      newStatus: updatedCompletedStatus,
+      successMessage: "Completed status successfully updated",
+    });
   } catch (error) {
     console.error(error);
     res
       .status(400)
-      .json({ message: "An error has occured while completing a task." });
+      .json({ errorMessage: "An error has occured while completing a task." });
   }
 });
 

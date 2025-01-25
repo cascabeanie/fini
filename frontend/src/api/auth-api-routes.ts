@@ -6,29 +6,48 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 export async function registerUser(newUser: userType) {
   const { username, password } = newUser;
 
-  try {
-    const res = await fetch(`${baseUrl}/api/auth/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
-    });
+  const res = await fetch(`${baseUrl}/api/auth/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: username,
+      password: password,
+    }),
+  });
 
-    const data = await res.json();
-
-    if (res.ok) {
-      return data;
-    } else {
-      // Handle non-200 responses by returning error message to be handled in Register component
-      return data;
-    }
-  } catch (error) {
-    console.error(error);
+  if (!res.ok) {
+    const errorData = await res.json();
+    return errorData;
   }
+
+  const data = await res.json();
+  return data;
 }
 
 // Login an existing user
+export async function loginUser(existingUser: userType) {
+  const { username, password } = existingUser;
+
+  const res = await fetch(`${baseUrl}/api/auth/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: username,
+      password: password,
+    }),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json();
+    return errorData;
+  }
+
+  const data = await res.json();
+  return data;
+}
+
+// Logout an existing user?

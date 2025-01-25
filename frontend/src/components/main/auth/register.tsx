@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { toast } from "sonner";
 import { useNavigate, Link } from "react-router";
 import { registerUser } from "../../../api/auth-api-routes";
 
@@ -9,11 +9,9 @@ import { ClipboardCheck } from "lucide-react";
 
 export default function Register() {
   let navigate = useNavigate();
-  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setError(null); // Reset any previous errors
 
     try {
       const formData = new FormData(event.currentTarget);
@@ -26,17 +24,16 @@ export default function Register() {
       const data = await registerUser(userCredentials);
 
       if (data && data.token) {
-        // dev: for testing
-        console.log(data);
-
         localStorage.setItem("token", data.token);
+        toast.success("Registration successful!");
         navigate("/tasks");
       } else {
-        setError(data.message);
-        throw new Error(data.message);
+        toast.error(data.errorMessage);
+        return;
       }
     } catch (error) {
       console.error(error);
+      toast.error("An unexpected error occurred");
     }
   }
 
@@ -87,8 +84,6 @@ export default function Register() {
             </div>
 
             <div className="w-full">
-              {error && <div className="text-red-600">{error}</div>}
-
               <Button
                 buttonVariant={"primary"}
                 buttonType={"submit"}

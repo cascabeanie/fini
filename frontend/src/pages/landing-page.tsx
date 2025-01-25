@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 import LandingList from "../components/main/landing/landing-list";
 import Button from "../components/ui/buttons/button";
 
@@ -18,9 +20,11 @@ export default function Landing() {
           </span>
 
           <span>
-            <Button buttonType={"button"} buttonVariant={"primary"}>
-              Get Started
-            </Button>
+            <Link to="/login">
+              <Button buttonType={"button"} buttonVariant={"primary"}>
+                Get Started
+              </Button>
+            </Link>
           </span>
         </div>
 
