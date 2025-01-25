@@ -50,4 +50,23 @@ export async function loginUser(existingUser: userType) {
   return data;
 }
 
-// Logout an existing user?
+// Verify a user's token
+export async function verifyUser() {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`${baseUrl}/api/auth/verify`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: token as string,
+    },
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json();
+    return errorData;
+  }
+
+  const data = await res.json();
+  return data;
+}

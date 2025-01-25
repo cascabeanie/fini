@@ -1,5 +1,6 @@
 import { toast } from "sonner";
 import { useNavigate, Link } from "react-router";
+import { useAuthContext } from "../../../contexts/auth-context";
 import { registerUser } from "../../../api/auth-api-routes";
 
 import Button from "../../ui/buttons/button";
@@ -9,6 +10,7 @@ import { ClipboardCheck } from "lucide-react";
 
 export default function Register() {
   let navigate = useNavigate();
+  const { setAuthStatus } = useAuthContext();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -26,6 +28,7 @@ export default function Register() {
       if (data && data.token) {
         localStorage.setItem("token", data.token);
         toast.success("Registration successful!");
+        setAuthStatus(true);
         navigate("/tasks");
       } else {
         toast.error(data.errorMessage);

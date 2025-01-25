@@ -54,13 +54,13 @@ router.post("/login", async (req, res) => {
       `;
 
     if (!getUser[0]) {
-      return res.status(404).json({ message: "User not found." });
+      return res.status(404).json({ errorMessage: "User not found." });
     }
 
     const isPasswordValid = bcrypt.compareSync(password, getUser[0].password);
 
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Password is invalid." });
+      return res.status(401).json({ errorMessage: "Password is invalid." });
     }
 
     const token = jwt.sign({ id: getUser[0].id }, process.env.JWT_SECRET_KEY, {
@@ -74,6 +74,25 @@ router.post("/login", async (req, res) => {
       errorMessage: "Login has failed, please try again.",
     });
   }
+});
+
+// Verify a user's token
+router.post("/verify", async (req, res) => {
+  const token = req.headers["authorization"];
+
+  if (!token) {
+    return res
+      .status(200)
+      .json({ authErrorMessage: "No token provided to server." });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET_KEY, (error) => {
+    if (error) {
+      return res.status(200).json({ authErrorMessage: "Token is invalid." });
+    } else {
+      return res.status(200).json({ authSuccessMessage: "Token is valid." });
+    }
+  });
 });
 
 export default router;

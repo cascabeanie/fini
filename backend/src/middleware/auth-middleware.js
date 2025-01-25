@@ -6,12 +6,12 @@ export default function authMiddleware(req, res, next) {
   if (!token) {
     return res
       .status(401)
-      .json({ errorMessage: "No token provided to server." });
+      .json({ authErrorMessage: "No token provided to server." });
   }
 
   jwt.verify(token, process.env.JWT_SECRET_KEY, (error, decoded) => {
     if (error) {
-      return res.status(401).json({ errorMessage: "Token is invalid." });
+      return res.status(401).json({ authErrorMessage: "Token is invalid." });
     }
 
     req.userId = decoded.id;

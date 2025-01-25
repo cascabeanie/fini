@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router";
 import { useTodoContext } from "../contexts/todo-context";
 import { useLoadingContext } from "../contexts/loading-context";
+import { useAuthContext } from "../contexts/auth-context";
 import {
   readTodos,
   createTodo,
@@ -21,6 +22,7 @@ import { CirclePlus, LoaderCircle } from "lucide-react";
 
 export default function Home() {
   let navigate = useNavigate();
+  const { setAuthStatus } = useAuthContext();
 
   const [newModalVisibility, setNewModalVisibility] = useState(false);
   const [editModalVisibility, setEditModalVisibility] = useState(false);
@@ -32,10 +34,16 @@ export default function Home() {
       setLoadingStatus(true);
       const data = await readTodos();
 
+      //dev: for testing
       console.log(data);
-      if (data?.errorMessage) {
-        toast.error(data?.errorMessage);
+
+      if (data?.authErrorMessage) {
+        toast.error(data?.authErrorMessage);
+        setAuthStatus(false);
         navigate("/login");
+        return;
+      } else if (data?.errorMessage) {
+        toast.error(data?.errorMessage);
         return;
       }
 
@@ -55,9 +63,13 @@ export default function Home() {
       setLoadingStatus(true);
       const data = await createTodo(newTodo);
 
-      if (data?.errorMessage) {
-        toast.error(data?.errorMessage);
+      if (data?.authErrorMessage) {
+        toast.error(data?.authErrorMessage);
+        setAuthStatus(false);
         navigate("/login");
+        return;
+      } else if (data?.errorMessage) {
+        toast.error(data?.errorMessage);
         return;
       }
 
@@ -80,9 +92,13 @@ export default function Home() {
       const { todoId } = newTodo;
       const data = await updateTodos(newTodo);
 
-      if (data?.errorMessage) {
-        toast.error(data?.errorMessage);
+      if (data?.authErrorMessage) {
+        toast.error(data?.authErrorMessage);
+        setAuthStatus(false);
         navigate("/login");
+        return;
+      } else if (data?.errorMessage) {
+        toast.error(data?.errorMessage);
         return;
       }
 
@@ -108,9 +124,13 @@ export default function Home() {
       setLoadingStatus(true);
       const data = await deleteTodo(todoId);
 
-      if (data?.errorMessage) {
-        toast.error(data?.errorMessage);
+      if (data?.authErrorMessage) {
+        toast.error(data?.authErrorMessage);
+        setAuthStatus(false);
         navigate("/login");
+        return;
+      } else if (data?.errorMessage) {
+        toast.error(data?.errorMessage);
         return;
       }
 
@@ -135,9 +155,13 @@ export default function Home() {
       const { todoId } = todo;
       const data = await completeTodo(todo);
 
-      if (data?.errorMessage) {
-        toast.error(data?.errorMessage);
+      if (data?.authErrorMessage) {
+        toast.error(data?.authErrorMessage);
+        setAuthStatus(false);
         navigate("/login");
+        return;
+      } else if (data?.errorMessage) {
+        toast.error(data?.errorMessage);
         return;
       }
 
