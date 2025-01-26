@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { useTodoContext } from "../../contexts/todo-context";
-import { useLoadingContext } from "../../contexts/loading-context";
+import { useTodoContext } from "../../../contexts/todo-context.tsx";
+import { useLoadingContext } from "../../../contexts/loading-context.tsx";
 import {
   getCategoryColour,
   getPriorityColour,
-} from "../../utils/get-todo-colour-helpers.ts";
+} from "../../../utils/get-todo-colour-helpers.ts";
 
-import { todoType } from "../../lib/types/todo-types";
+import { todoType } from "../../../lib/types/todo-types.ts";
 
-import TodoModal from "../ui/modals/todo-modal";
-import Button from "../ui/buttons/button";
-import CompletedCheckboxInput from "../ui/inputs/completed-checkbox-input";
+import TodoModal from "../../ui/modals/todo-modal.tsx";
+import Button from "../../ui/buttons/button.tsx";
+import CompletedCheckboxInput from "../../ui/inputs/completed-checkbox-input.tsx";
 import EmptyTodoList from "./empty-todo-list.tsx";
 import LoadingTodoList from "./loading-todo-list.tsx";
 

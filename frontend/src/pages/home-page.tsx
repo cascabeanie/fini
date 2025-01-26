@@ -9,7 +9,7 @@ import { todoType } from "../lib/types/todo-types";
 
 import TodoModal from "../components/ui/modals/todo-modal";
 import Button from "../components/ui/buttons/button";
-import TodoList from "../components/main/todo-list";
+import TodoList from "../components/main/tasks/todo-list";
 
 import { CirclePlus, LoaderCircle } from "lucide-react";
 

@@ -17,13 +17,9 @@ export default function Navbar() {
       const data = await verifyUser();
 
       if (data?.authErrorMessage) {
-        // dev: for testing
-        //console.log(data?.authErrorMessage);
         setAuthStatus(false);
         return;
       } else if (data?.authSuccessMessage) {
-        // dev: for testing
-        //console.log(data?.authSuccessMessage);
         setAuthStatus(true);
         return;
       }
@@ -35,11 +31,6 @@ export default function Navbar() {
   useEffect(() => {
     handleVerifyUser();
   }, []);
-
-  // dev: for testing
-  /* useEffect(() => {
-    console.log(authStatus);
-  }, [authStatus]); */
 
   return (
     <>

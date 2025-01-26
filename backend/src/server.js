@@ -10,14 +10,6 @@ const PORT = process.env.PORT;
 app.use(express.json());
 app.use(cors());
 
-// dev: for testing
-// simulates slow connection
-app.use((req, res, next) => {
-  setTimeout(() => {
-    next();
-  }, 1000);
-});
-
 app.use("/api/auth", authRoutes);
 app.use("/api/todos", authMiddleware, todosRoutes);
 

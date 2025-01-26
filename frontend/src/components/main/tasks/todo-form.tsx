@@ -1,13 +1,13 @@
 import { useRef } from "react";
 
-import { todoType } from "../../lib/types/todo-types";
+import { todoType } from "../../../lib/types/todo-types";
 
-import TextInput from "../ui/inputs/text-input";
-import FormButton from "../ui/buttons/form-button";
-import SelectInput from "../ui/inputs/select-input";
-import DateInput from "../ui/inputs/date-input";
-import PriorityInput from "../ui/inputs/priority-input";
-import TextareaInput from "../ui/inputs/textArea-input";
+import TextInput from "../../ui/inputs/text-input";
+import FormButton from "../../ui/buttons/form-button";
+import SelectInput from "../../ui/inputs/select-input";
+import DateInput from "../../ui/inputs/date-input";
+import PriorityInput from "../../ui/inputs/priority-input";
+import TextareaInput from "../../ui/inputs/textArea-input";
 
 type TodoFormProps = {
   onCreateTodo?: (newTodo: todoType) => void;
@@ -58,9 +58,6 @@ export default function TodoForm({
       if (onCreateTodo) {
         onCreateTodo(userInput);
       }
-
-      //dev: for testing
-      //console.log(userInput);
 
       formRef.current?.reset();
     } catch (error) {

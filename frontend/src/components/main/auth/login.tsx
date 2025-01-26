@@ -76,9 +76,6 @@ export default function Login() {
                 minimumLength={8}
                 id={"password"}
               />
-              <Link to="/" className="mt-1 flex self-end text-sm font-medium">
-                Forgot password?
-              </Link>
             </div>
 
             <div className="w-full">

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 import { todoType } from "../../../lib/types/todo-types";
 
-import TodoForm from "../../main/todo-form";
+import TodoForm from "../../main/tasks/todo-form";
 
 import { CircleX } from "lucide-react";
 

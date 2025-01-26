@@ -3,7 +3,11 @@ import { Link } from "react-router";
 import LandingList from "../components/main/landing/landing-list";
 import Button from "../components/ui/buttons/button";
 
+import { useAuthContext } from "../contexts/auth-context";
+
 export default function Landing() {
+  const { authStatus } = useAuthContext();
+
   return (
     <>
       <div className="flex min-h-full min-w-full flex-col items-center gap-6 sm:gap-10">
@@ -20,11 +24,19 @@ export default function Landing() {
           </span>
 
           <span>
-            <Link to="/login">
-              <Button buttonType={"button"} buttonVariant={"primary"}>
-                Get Started
-              </Button>
-            </Link>
+            {authStatus === true ? (
+              <Link to="/tasks">
+                <Button buttonType={"button"} buttonVariant={"primary"}>
+                  Manage Tasks
+                </Button>
+              </Link>
+            ) : (
+              <Link to="/login">
+                <Button buttonType={"button"} buttonVariant={"primary"}>
+                  Get Started
+                </Button>
+              </Link>
+            )}
           </span>
         </div>
 

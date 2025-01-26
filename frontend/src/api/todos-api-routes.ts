@@ -15,14 +15,10 @@ export async function readAllTodos() {
 
   if (!res.ok) {
     const errorData = await res.json();
-    // dev: for testing
-    console.log(errorData);
     return errorData;
   }
 
   const data = await res.json();
-  // dev: for testing
-  console.log(data);
   return data;
 }
 
