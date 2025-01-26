@@ -3,7 +3,7 @@ import { todoType } from "../lib/types/todo-types";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 // Get todos for a specific user
-export async function readTodos() {
+export async function readAllTodos() {
   const token = localStorage.getItem("token");
 
   const res = await fetch(`${baseUrl}/api/todos`, {
@@ -15,6 +15,8 @@ export async function readTodos() {
 
   if (!res.ok) {
     const errorData = await res.json();
+    // dev: for testing
+    console.log(errorData);
     return errorData;
   }
 
@@ -25,7 +27,7 @@ export async function readTodos() {
 }
 
 // Create a todo for a specific user
-export async function createTodo(newTodo: todoType) {
+export async function createNewTodo(newTodo: todoType) {
   const token = localStorage.getItem("token");
 
   const res = await fetch(`${baseUrl}/api/todos`, {
@@ -53,7 +55,7 @@ export async function createTodo(newTodo: todoType) {
 }
 
 // Update a todo for a specific user
-export async function updateTodos(newTodo: todoType) {
+export async function updateExistingTodo(newTodo: todoType) {
   const { todoId } = newTodo;
   const token = localStorage.getItem("token");
 
@@ -82,7 +84,7 @@ export async function updateTodos(newTodo: todoType) {
 }
 
 // Delete a todo for a specific user
-export async function deleteTodo(todoId: string | undefined) {
+export async function deleteExistingTodo(todoId: string | undefined) {
   const token = localStorage.getItem("token");
 
   const res = await fetch(`${baseUrl}/api/todos/${todoId}`, {
@@ -102,7 +104,7 @@ export async function deleteTodo(todoId: string | undefined) {
 }
 
 // Update the completed status of a todo for a specific user
-export async function completeTodo(todo: todoType) {
+export async function completeExistingTodo(todo: todoType) {
   let newCompletedStatus;
   const { todoId, todoCompleted } = todo;
   const token = localStorage.getItem("token");

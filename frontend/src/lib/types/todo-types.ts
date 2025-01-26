@@ -4,7 +4,7 @@ export type todoType = {
   todoTitle: string;
   todoNotes: string;
   todoDeadline: string;
-  todoPriority: string;
+  todoPriority: "low" | "medium" | "high";
   todoCompleted?: boolean;
   userId?: string;
 };

@@ -24,17 +24,11 @@ export default function TodoForm({
 }: TodoFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
 
+  // Formats the date for the datetime-local input
   const formatedTime = new Date().toISOString().slice(0, 16);
-  //dev: for testing
-  //console.log(formatedTime);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    let todoId;
-    if (selectedTodoId) {
-      todoId = selectedTodoId;
-    }
 
     try {
       const formData = new FormData(event.currentTarget);
@@ -44,11 +38,15 @@ export default function TodoForm({
         todoTitle: formData.get("newTodoTitle") as string,
         todoNotes: formData.get("newTodoNotes") as string,
         todoDeadline: formData.get("newTodoDeadline") as string,
-        todoPriority: formData.get("newTodoPriority") as string,
+        todoPriority: formData.get("newTodoPriority") as
+          | "low"
+          | "medium"
+          | "high",
       };
 
+      // Appends the id of the task being edited
       if (selectedTodoId) {
-        userInput.todoId = todoId;
+        userInput.todoId = selectedTodoId;
       }
 
       // Only call onUpdateTodo if it exists

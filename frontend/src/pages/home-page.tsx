@@ -1,17 +1,10 @@
 import { useState, useEffect } from "react";
-import { toast } from "sonner";
-import { useNavigate } from "react-router";
-import { useTodoContext } from "../contexts/todo-context";
+import useFetchTodos from "../hooks/use-fetch-todos";
+import useCreateTodos from "../hooks/use-create-todos";
+import useUpdateTodos from "../hooks/use-update-todos";
+import useDeleteTodos from "../hooks/use-delete-todos";
+import useCompleteTodos from "../hooks/use-complete-todos";
 import { useLoadingContext } from "../contexts/loading-context";
-import { useAuthContext } from "../contexts/auth-context";
-import {
-  readTodos,
-  createTodo,
-  updateTodos,
-  deleteTodo,
-  completeTodo,
-} from "../api/todos-api-routes";
-
 import { todoType } from "../lib/types/todo-types";
 
 import TodoModal from "../components/ui/modals/todo-modal";
@@ -21,168 +14,43 @@ import TodoList from "../components/main/todo-list";
 import { CirclePlus, LoaderCircle } from "lucide-react";
 
 export default function Home() {
-  let navigate = useNavigate();
-  const { setAuthStatus } = useAuthContext();
-
   const [newModalVisibility, setNewModalVisibility] = useState(false);
   const [editModalVisibility, setEditModalVisibility] = useState(false);
-  const { setTodos } = useTodoContext();
-  const { loadingStatus, setLoadingStatus } = useLoadingContext();
+  const { loadingStatus } = useLoadingContext();
+  const fetchTodos = useFetchTodos();
+  const createTodos = useCreateTodos();
+  const updateTodos = useUpdateTodos();
+  const deleteTodos = useDeleteTodos();
+  const completeTodos = useCompleteTodos();
 
-  async function handleReadTodos() {
-    try {
-      setLoadingStatus(true);
-      const data = await readTodos();
-
-      //dev: for testing
-      console.log(data);
-
-      if (data?.authErrorMessage) {
-        toast.error(data?.authErrorMessage);
-        setAuthStatus(false);
-        navigate("/login");
-        return;
-      } else if (data?.errorMessage) {
-        toast.error(data?.errorMessage);
-        return;
-      }
-
-      setTodos(() => {
-        return [...data];
-      });
-      setLoadingStatus(false);
-    } catch (error) {
-      console.error(error);
-      toast.error("An unexpected error occurred");
-      navigate("/login");
-    }
-  }
-
-  async function handleCreateTodo(newTodo: todoType) {
-    try {
-      setLoadingStatus(true);
-      const data = await createTodo(newTodo);
-
-      if (data?.authErrorMessage) {
-        toast.error(data?.authErrorMessage);
-        setAuthStatus(false);
-        navigate("/login");
-        return;
-      } else if (data?.errorMessage) {
-        toast.error(data?.errorMessage);
-        return;
-      }
-
-      setTodos((prevTodos) => {
-        return [...prevTodos, data.newTodo[0]];
-      });
-      toast.success(data?.successMessage);
-      setLoadingStatus(false);
-      setNewModalVisibility(false);
-    } catch (error) {
-      console.error(error);
-      toast.error("An unexpected error occurred");
-      navigate("/login");
-    }
-  }
-
-  async function handleUpdateTodo(newTodo: todoType) {
-    try {
-      setLoadingStatus(true);
-      const { todoId } = newTodo;
-      const data = await updateTodos(newTodo);
-
-      if (data?.authErrorMessage) {
-        toast.error(data?.authErrorMessage);
-        setAuthStatus(false);
-        navigate("/login");
-        return;
-      } else if (data?.errorMessage) {
-        toast.error(data?.errorMessage);
-        return;
-      }
-
-      setTodos((prevTodos) => {
-        const filteredTodos = prevTodos.filter((todo) => {
-          return todo.todoId !== todoId;
-        });
-
-        return [...filteredTodos, data.updatedTodo[0]];
-      });
-      toast.success(data?.successMessage);
-      setLoadingStatus(false);
-      setEditModalVisibility(false);
-    } catch (error) {
-      console.error(error);
-      toast.error("An unexpected error occurred");
-      navigate("/login");
-    }
-  }
-
-  async function handleDeleteTodo(todoId: string | undefined) {
-    try {
-      setLoadingStatus(true);
-      const data = await deleteTodo(todoId);
-
-      if (data?.authErrorMessage) {
-        toast.error(data?.authErrorMessage);
-        setAuthStatus(false);
-        navigate("/login");
-        return;
-      } else if (data?.errorMessage) {
-        toast.error(data?.errorMessage);
-        return;
-      }
-
-      setTodos((prevTodos) => {
-        const filteredTodos = prevTodos.filter((todo) => {
-          return todo.todoId !== todoId;
-        });
-
-        return [...filteredTodos];
-      });
-      toast.success(data?.successMessage);
-      setLoadingStatus(false);
-    } catch (error) {
-      console.error(error);
-      toast.error("An unexpected error occurred");
-      navigate("/login");
-    }
-  }
-
-  async function handleCompletedTodo(todo: todoType) {
-    try {
-      const { todoId } = todo;
-      const data = await completeTodo(todo);
-
-      if (data?.authErrorMessage) {
-        toast.error(data?.authErrorMessage);
-        setAuthStatus(false);
-        navigate("/login");
-        return;
-      } else if (data?.errorMessage) {
-        toast.error(data?.errorMessage);
-        return;
-      }
-
-      setTodos((prevTodos) => {
-        const filteredTodos = prevTodos.filter((todo) => {
-          return todo.todoId !== todoId;
-        });
-
-        return [...filteredTodos, data.newStatus[0]];
-      });
-      toast.success(data?.successMessage);
-    } catch (error) {
-      console.error(error);
-      toast.error("An unexpected error occurred");
-      navigate("/login");
-    }
-  }
-
+  // Fetch todos on component mount
   useEffect(() => {
-    handleReadTodos();
-  }, []);
+    fetchTodos();
+  }, [fetchTodos]);
+
+  // Handler for creating a new todo
+  async function handleCreateTodo(newTodo: todoType) {
+    await createTodos(newTodo, () => {
+      setNewModalVisibility(false);
+    });
+  }
+
+  // Handler for updating a todo
+  async function handleUpdateTodo(updatedTodo: todoType) {
+    await updateTodos(updatedTodo, () => {
+      setEditModalVisibility(false);
+    });
+  }
+
+  // Handler for deleting a todo
+  async function handleDeleteTodo(todoId: string | undefined) {
+    await deleteTodos(todoId);
+  }
+
+  // Handler for completing a todo
+  async function handleCompletedTodo(todo: todoType) {
+    await completeTodos(todo);
+  }
 
   return (
     <>
