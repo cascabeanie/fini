@@ -60,14 +60,14 @@ export default function TodoList({
       ) : todos.length === 0 ? (
         <EmptyTodoList />
       ) : (
-        <div className="m-4 flex rounded-3xl border-2 border-gray-100">
+        <div className="m-4 flex justify-self-center rounded-3xl border-2 border-gray-100 sm:max-w-7xl">
           <ul className="m-4 grid w-full grid-rows-[repeat(auto)] gap-8">
             {todos.map((todo: todoType) => (
               <li
                 key={todo.todoId}
                 className="flex flex-col gap-4 p-2 shadow-sm"
               >
-                <div className="grid grid-rows-4 items-center gap-1 md:grid-cols-[repeat(3,_1fr),_auto] md:grid-rows-1">
+                <div className="grid grid-rows-4 items-center gap-1 md:grid-cols-[repeat(3,_1fr)_auto] md:grid-rows-1">
                   <div className="flex items-center justify-start gap-4 md:gap-8">
                     <span
                       className="flex"
@@ -92,7 +92,7 @@ export default function TodoList({
                     </span>
                   </div>
 
-                  <div className="flex md:justify-center">
+                  <div className="flex sm:mr-5 md:justify-center">
                     <time className="font-light">
                       Deadline: {convertDateTime(todo.todoDeadline)}
                     </time>
@@ -134,7 +134,9 @@ export default function TodoList({
 
                 <div>
                   <h3 className="font-medium">Notes:</h3>
-                  <p className="font-light">{todo.todoNotes}</p>
+                  <p className="whitespace-pre-wrap font-light">
+                    {todo.todoNotes}
+                  </p>
                 </div>
 
                 <div>

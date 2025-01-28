@@ -25,7 +25,7 @@ export default function LandingItem({
   return (
     <>
       <li className="flex flex-col gap-4 p-2 shadow-sm">
-        <div className="grid grid-rows-4 items-center gap-1 md:grid-cols-[repeat(3,_1fr),_auto] md:grid-rows-1">
+        <div className="grid grid-rows-4 items-center gap-1 md:grid-cols-[repeat(3,_1fr)_auto] md:grid-rows-1">
           <div className="flex items-center justify-start gap-4 md:gap-8">
             <span className="flex">
               <CompletedCheckboxInput

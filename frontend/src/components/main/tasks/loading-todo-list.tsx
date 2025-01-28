@@ -4,7 +4,7 @@ export default function LoadingTodoList() {
       <div className="m-4 flex animate-pulse rounded-3xl border-2 border-gray-100">
         <div className="m-4 grid w-full gap-8">
           <div className="flex flex-col gap-4 p-2 shadow-sm">
-            <div className="grid w-full grid-rows-4 items-center gap-1 md:grid-cols-[repeat(3,_1fr),_auto] md:grid-rows-1">
+            <div className="grid w-full grid-rows-4 items-center gap-1 md:grid-cols-[repeat(3,_1fr)_auto] md:grid-rows-1">
               <div className="flex items-center justify-start">
                 <span className="h-8 w-40 animate-pulse rounded-2xl bg-gray-200"></span>
               </div>
