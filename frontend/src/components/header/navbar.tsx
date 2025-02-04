@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router";
-import { useAuthContext } from "../../contexts/auth-context";
+import { useAuthContext } from "../../hooks/use-auth-context";
 import { verifyUser } from "../../api/auth-api-routes";
 
 import NavButton from "../ui/buttons/nav-button";
@@ -9,7 +9,7 @@ import NavButton from "../ui/buttons/nav-button";
 import { CircleCheckBig, LogIn, LogOut, SquarePen } from "lucide-react";
 
 export default function Navbar() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const { authStatus, setAuthStatus } = useAuthContext();
 
   async function handleVerifyUser() {
@@ -30,6 +30,7 @@ export default function Navbar() {
 
   useEffect(() => {
     handleVerifyUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

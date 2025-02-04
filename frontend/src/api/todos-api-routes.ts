@@ -101,13 +101,10 @@ export async function deleteExistingTodo(todoId: string | undefined) {
 
 // Update the completed status of a todo for a specific user
 export async function completeExistingTodo(todo: todoType) {
-  let newCompletedStatus;
   const { todoId, todoCompleted } = todo;
   const token = localStorage.getItem("token");
 
-  todoCompleted === false
-    ? (newCompletedStatus = true)
-    : (newCompletedStatus = false);
+  const newCompletedStatus = todoCompleted === false ? true : false;
 
   const res = await fetch(`${baseUrl}/api/todos/${todoId}`, {
     method: "PATCH",

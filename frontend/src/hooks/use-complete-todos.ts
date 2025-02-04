@@ -2,12 +2,12 @@ import { useCallback } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
 import { completeExistingTodo } from "../api/todos-api-routes";
-import { useAuthContext } from "../contexts/auth-context";
-import { useTodoContext } from "../contexts/todo-context";
+import { useAuthContext } from "./use-auth-context";
+import { useTodoContext } from "./use-todo-context";
 import { todoType } from "../lib/types/todo-types";
 
 export default function useCompleteTodos() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const { setAuthStatus } = useAuthContext();
   const { setTodos } = useTodoContext();
 
@@ -43,7 +43,7 @@ export default function useCompleteTodos() {
         return null;
       }
     },
-    [navigate, setTodos],
+    [navigate, setAuthStatus, setTodos],
   );
 
   return completeTodos;

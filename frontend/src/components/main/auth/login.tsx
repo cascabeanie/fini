@@ -1,6 +1,6 @@
 import { toast } from "sonner";
 import { useNavigate, Link } from "react-router";
-import { useAuthContext } from "../../../contexts/auth-context";
+import { useAuthContext } from "../../../hooks/use-auth-context";
 import { loginUser } from "../../../api/auth-api-routes";
 
 import Button from "../../ui/buttons/button";
@@ -9,7 +9,7 @@ import AuthInput from "../../ui/inputs/auth-inputs";
 import { ClipboardCheck } from "lucide-react";
 
 export default function Login() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const { setAuthStatus } = useAuthContext();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {

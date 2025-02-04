@@ -1,17 +1,11 @@
-import { createContext, useContext, useState } from "react";
+import { useState } from "react";
+import { TodoContext } from "../hooks/use-todo-context";
 
 import { todoType } from "../lib/types/todo-types";
 
 type TodoContextProviderProps = {
   children: React.ReactNode;
 };
-
-type TodoContextType = {
-  todos: todoType[];
-  setTodos: React.Dispatch<React.SetStateAction<todoType[]>>;
-};
-
-export const TodoContext = createContext<TodoContextType | null>(null);
 
 export default function TodoContextProvider({
   children,
@@ -25,12 +19,4 @@ export default function TodoContextProvider({
       </TodoContext.Provider>
     </>
   );
-}
-
-export function useTodoContext() {
-  const context = useContext(TodoContext);
-  if (!context) {
-    throw new Error("TodoContext must be used within a TodoContextProvider");
-  }
-  return context;
 }

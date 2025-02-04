@@ -1,5 +1,4 @@
-import { useLoadingContext } from "../../../contexts/loading-context";
-
+import { useLoadingContext } from "../../../hooks/use-loading-context";
 import Button from "./button";
 
 import { CirclePlus, LoaderCircle, Pencil } from "lucide-react";

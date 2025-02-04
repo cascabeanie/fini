@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import LandingList from "../components/main/landing/landing-list";
 import Button from "../components/ui/buttons/button";
 
-import { useAuthContext } from "../contexts/auth-context";
+import { useAuthContext } from "../hooks/use-auth-context";
 
 export default function Landing() {
   const { authStatus } = useAuthContext();

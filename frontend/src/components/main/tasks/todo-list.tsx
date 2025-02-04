@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useTodoContext } from "../../../contexts/todo-context.tsx";
-import { useLoadingContext } from "../../../contexts/loading-context.tsx";
+import { useTodoContext } from "../../../hooks/use-todo-context.ts";
+import { useLoadingContext } from "../../../hooks/use-loading-context.ts";
 import {
   getCategoryColour,
   getPriorityColour,

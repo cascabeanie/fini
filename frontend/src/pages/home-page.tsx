@@ -4,7 +4,7 @@ import useCreateTodos from "../hooks/use-create-todos";
 import useUpdateTodos from "../hooks/use-update-todos";
 import useDeleteTodos from "../hooks/use-delete-todos";
 import useCompleteTodos from "../hooks/use-complete-todos";
-import { useLoadingContext } from "../contexts/loading-context";
+import { useLoadingContext } from "../hooks/use-loading-context";
 import { todoType } from "../lib/types/todo-types";
 
 import TodoModal from "../components/ui/modals/todo-modal";
